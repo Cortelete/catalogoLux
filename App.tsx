@@ -1,10 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import * as ReactRouterDOM from 'react-router-dom';
 import { Procedure } from './types';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
 import CatalogPage from './pages/CatalogPage';
 import BookingModal from './components/BookingModal';
 
@@ -45,7 +45,6 @@ const AppContent: React.FC = () => {
       <main className="flex-grow">
         <ReactRouterDOM.Routes>
           <ReactRouterDOM.Route path="/" element={<HomePage />} />
-          <ReactRouterDOM.Route path="/sobre" element={<AboutPage />} />
           <ReactRouterDOM.Route path="/catalogo" element={<CatalogPage onProcedureSelect={handleProcedureSelect} />} />
         </ReactRouterDOM.Routes>
       </main>

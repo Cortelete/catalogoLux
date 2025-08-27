@@ -29,7 +29,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     id: 'nanopigmentacao',
-    name: 'Nanopigmentação',
+    name: 'Microblanding',
     procedures: nanoProcedures,
   },
 ];
