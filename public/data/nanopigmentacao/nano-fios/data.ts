@@ -2,9 +2,10 @@ import { Procedure } from '../../../../types';
 
 export const nanoFios: Procedure = {
   id: 'nano-fios',
-  name: 'Microblanding',
-  description: 'Técnica avançada que utiliza um indutor manual para criar fios ultra-realistas, resultando em sobrancelhas perfeitas e naturais.',
-  price: 'R$ 450,00',
+  name: 'Nanopigmentação de Sobrancelhas',
+  description: 'Técnica avançada de micropigmentação que cria fios ultra-realistas, resultando em sobrancelhas perfeitas e naturais.',
+  price: 'Em breve',
+  comingSoon: true,
   details: ['Tecnologia de ponta para precisão', 'Longa duração com retoques anuais'],
   images: [
       '/data/nanopigmentacao/nano-fios/img/NF1.png',
