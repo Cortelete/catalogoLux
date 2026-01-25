@@ -1,8 +1,9 @@
+
 import { Procedure, MaleVersion } from '../../../../types';
 
 const maleVersionData: MaleVersion = {
     name: 'Design de Sobrancelhas Masculino',
-    price: 'R$ 50,00',
+    price: 'R$ 55,00',
     description: 'Limpeza e alinhamento dos fios para um visual natural e bem cuidado, respeitando o formato masculino.',
     details: ['Preserva a naturalidade', 'Remove excessos'],
     images: [
@@ -16,7 +17,7 @@ export const designSobrancelhas: Procedure = {
   id: 'design-sobrancelhas',
   name: 'Design de Sobrancelhas',
   description: 'Modelagem das sobrancelhas com pinça e/ou cera, criando um design harmônico para o rosto.',
-  price: 'R$ 40,00',
+  price: 'R$ 45,00',
   details: [
     'Design personalizado via mapeamento facial',
     'Modelagem precisa com pinça e/ou cera',

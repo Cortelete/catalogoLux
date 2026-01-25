@@ -1,24 +1,32 @@
+
 import { SubCategory } from '../../../types';
 
 import { designSobrancelhas } from './design-feminino/data';
 import { designHenna } from './design-henna/data';
-import { designTintura } from './design-tintura/data';
 import { brownLamination } from './brown-lamination/data';
+
+import { micropigmentacao } from './micropigmentacao/data';
+import { repareBrow } from './repare-brow/data';
+import { protocoloCrescimento } from './protocolo-crescimento/data';
+
 
 export const eyebrowSubCategories: SubCategory[] = [
   {
     id: 'design-essencial-sub',
-    name: 'Design Essencial',
-    procedures: [designSobrancelhas],
+    name: 'Design',
+    procedures: [
+        designSobrancelhas,
+        designHenna,
+        brownLamination
+    ],
   },
   {
-    id: 'design-coloracao-sub',
-    name: 'Design com Coloração',
-    procedures: [designHenna, designTintura],
-  },
-  {
-    id: 'estilizacao-sobrancelhas-sub',
-    name: 'Tratamentos e Estilização',
-    procedures: [brownLamination],
+    id: 'especial-sobrancelhas-sub',
+    name: 'Especial',
+    procedures: [
+        micropigmentacao,
+        repareBrow,
+        protocoloCrescimento
+    ],
   },
 ];

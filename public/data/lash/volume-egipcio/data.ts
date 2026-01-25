@@ -1,10 +1,11 @@
+
 import { Procedure } from '../../../../types';
 
 export const volumeEgipcio: Procedure = {
   id: 'volume-egipcio',
-  name: 'Extensão: Volume Egípcio',
+  name: 'Extensão: Volume Egípcio (4D)',
   description: 'Técnica que utiliza fios tecnológicos 4D para um volume sofisticado e um acabamento elegante.',
-  price: 'Aplicação: R$ 155,00 | Manutenção: R$ 120,00',
+  price: 'Aplicação: R$ 160,00 | Manutenção: R$ 120,00',
   details: ['Alto poder de preenchimento', 'Fio Tecnológico 4D', 'Efeito glamoroso'],
   images: [
       '/data/lash/volume-egipcio/img/VE1.png',

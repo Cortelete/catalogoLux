@@ -1,8 +1,9 @@
+
 import { SubCategory } from '../../../types';
 
 import { limpezaProfunda } from './limpeza-profunda/data';
 import { limpezaRelaxante } from './limpeza-relaxante/data';
-import { radiofrequencia } from './radiofrequencia/data';
+import { microagulhamento } from './microagulhamento/data';
 
 export const skinSubCategories: SubCategory[] = [
   {
@@ -13,6 +14,6 @@ export const skinSubCategories: SubCategory[] = [
   {
     id: 'tratamentos-faciais-sub',
     name: 'Tratamentos Faciais',
-    procedures: [radiofrequencia],
+    procedures: [microagulhamento],
   },
 ];

@@ -1,17 +1,20 @@
+
 import { SubCategory } from '../../../types';
 
 import { lashLifting } from './lash-lifting/data';
-import { fioAFio } from './fio-a-fio/data';
+import { volumeExpress } from './volume-express/data';
 import { volumeBrasileiro } from './volume-brasileiro/data';
 import { volumeBrasileiroColorido } from './volume-brasileiro-colorido/data';
+import { efeitoMolhado } from './efeito-molhado/data';
 import { volumeEgipcio } from './volume-egipcio/data';
-import { efeitoSirena } from './efeito-sirena/data';
-import { efeitoFox } from './efeito-fox/data';
 import { volumeRusso } from './volume-russo/data';
+import { volumePardo } from './volume-pardo/data';
+import { efeitoFox } from './efeito-fox/data';
+import { efeitoAnime } from './efeito-anime/data';
 import { megaVolume } from './mega-volume/data';
-import { volumeWispy } from './volume-wispy/data';
 import { capping } from './capping/data';
-import { volumeExpress } from './volume-express/data';
+import { megaCapping } from './mega-capping/data';
+import { remocao } from './remocao/data';
 
 export const lashSubCategories: SubCategory[] = [
   {
@@ -23,17 +26,19 @@ export const lashSubCategories: SubCategory[] = [
     id: 'extensoes-sub',
     name: 'Extensões',
     procedures: [
-      fioAFio,
+      volumeExpress,
       volumeBrasileiro,
       volumeBrasileiroColorido,
+      efeitoMolhado,
       volumeEgipcio,
-      efeitoSirena,
-      efeitoFox,
       volumeRusso,
+      volumePardo,
+      efeitoFox,
+      efeitoAnime,
       megaVolume,
-      volumeWispy,
       capping,
-      volumeExpress,
+      megaCapping,
+      remocao
     ],
   },
 ];

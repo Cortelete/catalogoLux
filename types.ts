@@ -7,6 +7,11 @@ export interface MaleVersion {
   images: string[];
 }
 
+export interface ToggleOption {
+  label: string;
+  priceIncrement: number;
+}
+
 export interface Procedure {
   id: string;
   name: string;
@@ -16,6 +21,7 @@ export interface Procedure {
   images: string[];
   comingSoon?: boolean;
   maleVersion?: MaleVersion;
+  toggleOption?: ToggleOption;
 }
 
 export interface SubCategory {
@@ -33,8 +39,9 @@ export interface Category {
 
 export interface BookingFormData {
   name: string;
-  preferredDate: string;
-  preferredTime: string;
+  birthDate: string;
+  preferredDays: string[];
+  preferredTimes: string[];
   paymentMethod: 'pix' | 'credito' | 'debito' | '';
   observations: string;
 }
