@@ -324,11 +324,10 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
           </svg>
         </button>
 
-        {/* Alterado para aspect-[3/4] no mobile para mostrar foto inteira vertical */}
-        <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 aspect-[3/4] md:aspect-auto md:h-auto overflow-hidden relative">
+        <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 h-56 md:h-auto overflow-hidden relative">
           <ImageCarousel images={currentImages} procedureName={currentProcedureName} />
-          {/* Overlay gradiente inferior para transição suave */}
-          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent md:hidden pointer-events-none"></div>
+          {/* Overlay gradiente sutil na parte inferior da imagem para transição suave */}
+          <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-gray-900 to-transparent md:hidden pointer-events-none"></div>
         </div>
 
         <div className="w-full md:w-7/12 p-4 md:p-8 flex flex-col overflow-y-auto">
