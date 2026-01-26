@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Procedure, BookingFormData } from '../types';
 import ShimmerButton from './ShimmerButton';
 import ImageCarousel from './ImageCarousel';
@@ -8,8 +8,6 @@ interface BookingModalProps {
   procedure: Procedure | null;
   onClose: () => void;
   isOpen: boolean;
-  onNext?: () => void;
-  onPrev?: () => void;
 }
 
 const PaymentOption: React.FC<{ value: string; label: string; description: string; selected: boolean; onChange: (value: any) => void }> = ({ value, label, description, selected, onChange }) => (
@@ -54,7 +52,7 @@ const StepIndicator: React.FC<{ currentStep: number; totalSteps: number }> = ({ 
 const DAYS_OPTIONS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 const SHIFT_OPTIONS = ['Manhã', 'Tarde', 'Noite'];
 
-const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen, onNext, onPrev }) => {
+const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen }) => {
   const [step, setStep] = useState(0);
   const [isMaleVersion, setIsMaleVersion] = useState(false);
   const [isToggleOptionSelected, setIsToggleOptionSelected] = useState(false);
@@ -66,9 +64,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen,
     paymentMethod: '',
     observations: '',
   });
-
-  // Swipe handling states
-  const touchStartRef = useRef<{ x: number, y: number } | null>(null);
 
   useEffect(() => {
     if (procedure) {
@@ -129,39 +124,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen,
     onClose();
   };
 
-  // Swipe Handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartRef.current = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY
-    };
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchStartRef.current) return;
-    
-    const touchEnd = {
-        x: e.changedTouches[0].clientX,
-        y: e.changedTouches[0].clientY
-    };
-
-    const deltaX = touchStartRef.current.x - touchEnd.x;
-    const deltaY = touchStartRef.current.y - touchEnd.y;
-
-    // Se o movimento for predominantemente horizontal (> 50px de swipe, e movimento X > movimento Y)
-    if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
-        if (deltaX > 0) {
-            // Swipe Left -> Next
-            if (onNext) onNext();
-        } else {
-            // Swipe Right -> Prev
-            if (onPrev) onPrev();
-        }
-    }
-    
-    touchStartRef.current = null;
-  };
-
   // Base Data Logic
   let currentProcedureName = isMaleVersion && procedure.maleVersion ? procedure.maleVersion.name : procedure.name;
   let basePriceString = isMaleVersion && procedure.maleVersion ? procedure.maleVersion.price : procedure.price;
@@ -174,11 +136,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen,
   
   if (isToggleOptionSelected && procedure.toggleOption) {
     currentProcedureName += ` + ${procedure.toggleOption.label}`;
+    // Basic string parsing to update displayed price if it's a simple number value
+    // This assumes price format "R$ XX,XX"
     const numericPrice = parseFloat(basePriceString.replace(/[^\d,]/g, '').replace(',', '.'));
     if (!isNaN(numericPrice)) {
         const newPrice = numericPrice + procedure.toggleOption.priceIncrement;
         displayedPrice = `R$ ${newPrice.toFixed(2).replace('.', ',')}`;
     } else {
+        // If price is complex (e.g. contains text), just append the increment text
         displayedPrice = `${basePriceString} (+ R$ ${procedure.toggleOption.priceIncrement.toFixed(2).replace('.', ',')})`;
     }
   }
@@ -346,33 +311,27 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
     }
   }
 
-  // Z-Index 60 para ficar acima do modal de categorias.
-  // Layout ajustado:
-  // Mobile: flex-col, overflow-y-auto no container pai (para imagem rolar). Imagem é bloco 1, Content bloco 2.
-  // Desktop: flex-row, overflow-hidden no container pai. Imagem (esq) fixa, Content (dir) scroll.
+  // Z-Index alterado para 60 para ficar acima do modal de categorias (z-50)
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-0 md:p-4 animate-fade-in" onClick={resetAndClose}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-2 md:p-4 animate-fade-in" onClick={resetAndClose}>
       <div 
-        className="relative bg-gray-900 border border-amber-200/20 shadow-2xl shadow-amber-900/40 rounded-none md:rounded-xl w-full max-w-4xl flex flex-col md:flex-row h-[100dvh] md:h-auto md:max-h-[95vh] overflow-y-auto md:overflow-hidden scroll-smooth" 
+        className="relative bg-gray-900 border border-amber-200/20 shadow-2xl shadow-amber-900/40 rounded-xl w-full max-w-4xl flex flex-col md:flex-row max-h-[95vh] overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
       >
-        <button onClick={resetAndClose} className="fixed md:absolute top-4 right-4 z-50 text-amber-200/70 hover:text-amber-200 transition-transform hover:scale-110 hover:rotate-90 bg-black/40 rounded-full p-1 md:bg-transparent">
+        <button onClick={resetAndClose} className="absolute top-4 right-4 z-20 text-amber-200/70 hover:text-amber-200 transition-transform hover:scale-110 hover:rotate-90">
            <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        {/* Container da Imagem: Em mobile é parte do fluxo normal de scroll. Em desktop é coluna esquerda. */}
-        <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 h-[60vh] md:h-auto relative overflow-hidden">
+        {/* Alterado para aspect-[3/4] no mobile para mostrar foto inteira vertical */}
+        <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 aspect-[3/4] md:aspect-auto md:h-auto overflow-hidden relative">
           <ImageCarousel images={currentImages} procedureName={currentProcedureName} />
           {/* Overlay gradiente inferior para transição suave */}
           <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent md:hidden pointer-events-none"></div>
         </div>
 
-        {/* Container do Conteúdo: Em mobile vem abaixo da imagem. Em desktop é coluna direita com scroll próprio. */}
-        <div className="w-full md:w-7/12 p-4 md:p-8 flex flex-col md:overflow-y-auto min-h-max bg-gray-900">
+        <div className="w-full md:w-7/12 p-4 md:p-8 flex flex-col overflow-y-auto">
           <div className="flex-shrink-0">
             <h3 className="font-display text-xl md:text-3xl text-amber-100 leading-tight pr-8">{currentProcedureName}</h3>
             <p className="text-amber-100/80 mt-2 md:mt-3 text-sm leading-snug">{currentDescription}</p>
@@ -392,6 +351,7 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
                       checked={isMaleVersion}
                       onChange={(e) => {
                           setIsMaleVersion(e.target.checked);
+                          // Reset toggle option if male version changes to avoid conflicts if needed, though they can coexist logically
                       }}
                       className="h-5 w-5 cursor-pointer rounded bg-gray-700 border-amber-50/30 text-amber-300 focus:ring-amber-200 focus:ring-offset-gray-900 flex-shrink-0"
                   />
@@ -427,7 +387,7 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
             </ul>
           </div>
 
-          <div className="flex-grow mt-6 md:mt-8 border-t border-amber-50/10 pt-4 md:pt-6 pb-4 mb-20 md:mb-0">
+          <div className="flex-grow mt-6 md:mt-8 border-t border-amber-50/10 pt-4 md:pt-6 pb-4">
             <StepIndicator currentStep={step} totalSteps={5} />
             {renderStepContent()}
           </div>

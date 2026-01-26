@@ -12,14 +12,7 @@ import BookingModal from './components/BookingModal';
 const AppContent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProcedure, setSelectedProcedure] = useState<Procedure | null>(null);
-  const [currentProcedureList, setCurrentProcedureList] = useState<Procedure[]>([]);
   const location = ReactRouterDOM.useLocation();
-  const navigate = ReactRouterDOM.useNavigate();
-
-  // Redireciona para a página inicial sempre que o componente é montado (recarregamento da página)
-  useEffect(() => {
-     navigate('/');
-  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -36,39 +29,14 @@ const AppContent: React.FC = () => {
     };
   }, [isModalOpen]);
 
-  // @ts-ignore - Recebe lista opcional do CatalogPage
-  const handleProcedureSelect = (procedure: Procedure, procedureList: Procedure[] = []) => {
+  const handleProcedureSelect = (procedure: Procedure) => {
     setSelectedProcedure(procedure);
-    if (procedureList && procedureList.length > 0) {
-      setCurrentProcedureList(procedureList);
-    } else {
-      setCurrentProcedureList([procedure]);
-    }
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setTimeout(() => {
-        setSelectedProcedure(null);
-        setCurrentProcedureList([]);
-    }, 300);
-  };
-
-  const handleNextProcedure = () => {
-    if (!selectedProcedure || currentProcedureList.length <= 1) return;
-    const currentIndex = currentProcedureList.findIndex(p => p.id === selectedProcedure.id);
-    if (currentIndex !== -1 && currentIndex < currentProcedureList.length - 1) {
-        setSelectedProcedure(currentProcedureList[currentIndex + 1]);
-    }
-  };
-
-  const handlePrevProcedure = () => {
-    if (!selectedProcedure || currentProcedureList.length <= 1) return;
-    const currentIndex = currentProcedureList.findIndex(p => p.id === selectedProcedure.id);
-    if (currentIndex > 0) {
-        setSelectedProcedure(currentProcedureList[currentIndex - 1]);
-    }
+    setTimeout(() => setSelectedProcedure(null), 300);
   };
 
   return (
@@ -86,8 +54,6 @@ const AppContent: React.FC = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         procedure={selectedProcedure}
-        onNext={handleNextProcedure}
-        onPrev={handlePrevProcedure}
       />
     </div>
   );

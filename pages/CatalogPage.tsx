@@ -31,18 +31,9 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
   };
 
   const handleSelectProcedure = (proc: Procedure) => {
-    // Mantém a categoria aberta ao fundo
+    // Mantém a categoria aberta ao fundo para que o botão voltar (X do modal) retorne à lista
+    // handleCloseCategory(); 
     onProcedureSelect(proc);
-  };
-
-  // Helper para obter lista plana de procedimentos da categoria atual para navegação
-  const getCategoryProcedures = (category: Category | null): Procedure[] => {
-    if (!category) return [];
-    if (category.procedures) return category.procedures;
-    if (category.subCategories) {
-      return category.subCategories.flatMap(sub => sub.procedures);
-    }
-    return [];
   };
 
   // Handler para erro de imagem da categoria
@@ -127,35 +118,6 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
 
             {/* Lista Scrollável */}
             <div className="overflow-y-auto p-3 md:p-6 space-y-6 scrollbar-thin scrollbar-thumb-amber-900/50 scrollbar-track-transparent">
-              {/* Passagem de contexto para navegação no modal futuro */}
-              {/* Nota: O componente CatalogPage não renderiza o BookingModal diretamente, 
-                  mas o App.tsx sim. Precisamos de uma forma de passar a lista para o App.tsx 
-                  OU o App.tsx precisa saber navegar.
-                  
-                  Para simplificar e manter a estrutura atual onde App.tsx gerencia o estado do modal:
-                  O App.tsx terá que lidar com next/prev. 
-                  Como o onProcedureSelect é passado para o App, vamos "hackear" 
-                  adicionando propriedades extras ao procedimento ou mudando a interface no App?
-                  
-                  Melhor abordagem: Modificar App.tsx para receber lista de procedimentos?
-                  Não, vamos injetar next/prev no componente ProcedureListItem ou passar uma função enriquecida.
-                  
-                  Na verdade, a maneira mais limpa sem refatorar o App inteiro é:
-                  O BookingModal recebe onNext/onPrev. O App.tsx precisa fornecer isso.
-                  Mas o App.tsx não sabe a lista atual.
-                  
-                  Solução: Vamos passar um objeto estendido no onProcedureSelect.
-                  Mas typescript vai reclamar.
-                  
-                  Vamos fazer o seguinte: O CatalogPage agora vai exportar uma função utilitária ou 
-                  simplesmente renderizar o BookingModal? Não, o BookingModal está no App.
-                  
-                  Vamos alterar o CatalogPage para injetar navegação no onProcedureSelect?
-                  Não, onProcedureSelect espera (Procedure).
-                  
-                  Vamos alterar a prop `onProcedureSelect` para aceitar `(proc: Procedure, allProcs: Procedure[])`.
-                  Isso requer mudar a interface CatalogPageProps e App.tsx.
-              */}
               
               {/* Opção 1: Exibir Subcategorias (se existirem) */}
               {selectedCategory.subCategories && selectedCategory.subCategories.map((sub: SubCategory) => (
@@ -168,12 +130,7 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
                       <ProcedureListItem 
                         key={proc.id} 
                         procedure={proc} 
-                        onClick={() => {
-                            // Encontra a lista completa deste contexto
-                            const allProcs = getCategoryProcedures(selectedCategory);
-                            // @ts-ignore - Passando argumento extra para o App.tsx lidar
-                            onProcedureSelect(proc, allProcs);
-                        }} 
+                        onClick={() => handleSelectProcedure(proc)} 
                       />
                     ))}
                   </div>
@@ -187,11 +144,7 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
                       <ProcedureListItem 
                         key={proc.id} 
                         procedure={proc} 
-                        onClick={() => {
-                            const allProcs = getCategoryProcedures(selectedCategory);
-                            // @ts-ignore
-                            onProcedureSelect(proc, allProcs);
-                        }} 
+                        onClick={() => handleSelectProcedure(proc)} 
                       />
                     ))}
                  </div>
