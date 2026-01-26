@@ -311,9 +311,8 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
     }
   }
 
-  // Z-Index alterado para 60 para ficar acima do modal de categorias (z-50)
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-2 md:p-4 animate-fade-in" onClick={resetAndClose}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4 animate-fade-in" onClick={resetAndClose}>
       <div 
         className="relative bg-gray-900 border border-amber-200/20 shadow-2xl shadow-amber-900/40 rounded-xl w-full max-w-4xl flex flex-col md:flex-row max-h-[95vh] overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
