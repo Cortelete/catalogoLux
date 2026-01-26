@@ -311,8 +311,9 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
     }
   }
 
+  // Z-Index alterado para 60 para ficar acima do modal de categorias (z-50)
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4 animate-fade-in" onClick={resetAndClose}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-2 md:p-4 animate-fade-in" onClick={resetAndClose}>
       <div 
         className="relative bg-gray-900 border border-amber-200/20 shadow-2xl shadow-amber-900/40 rounded-xl w-full max-w-4xl flex flex-col md:flex-row max-h-[95vh] overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
@@ -323,10 +324,11 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
           </svg>
         </button>
 
-        <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 h-56 md:h-auto overflow-hidden relative">
+        {/* Alterado para aspect-[3/4] no mobile para mostrar foto inteira vertical */}
+        <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 aspect-[3/4] md:aspect-auto md:h-auto overflow-hidden relative">
           <ImageCarousel images={currentImages} procedureName={currentProcedureName} />
-          {/* Overlay gradiente sutil na parte inferior da imagem para transição suave */}
-          <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-gray-900 to-transparent md:hidden pointer-events-none"></div>
+          {/* Overlay gradiente inferior para transição suave */}
+          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent md:hidden pointer-events-none"></div>
         </div>
 
         <div className="w-full md:w-7/12 p-4 md:p-8 flex flex-col overflow-y-auto">
