@@ -14,6 +14,12 @@ const AppContent: React.FC = () => {
   const [selectedProcedure, setSelectedProcedure] = useState<Procedure | null>(null);
   const [currentProcedureList, setCurrentProcedureList] = useState<Procedure[]>([]);
   const location = ReactRouterDOM.useLocation();
+  const navigate = ReactRouterDOM.useNavigate();
+
+  // Redireciona para a página inicial sempre que o componente é montado (recarregamento da página)
+  useEffect(() => {
+     navigate('/');
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);

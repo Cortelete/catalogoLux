@@ -346,18 +346,12 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
     }
   }
 
-<<<<<<< HEAD
   // Z-Index 60 para ficar acima do modal de categorias.
   // Layout ajustado:
   // Mobile: flex-col, overflow-y-auto no container pai (para imagem rolar). Imagem é bloco 1, Content bloco 2.
   // Desktop: flex-row, overflow-hidden no container pai. Imagem (esq) fixa, Content (dir) scroll.
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-0 md:p-4 animate-fade-in" onClick={resetAndClose}>
-=======
-  // Z-Index alterado para 60 para ficar acima do modal de categorias (z-50)
-  return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-2 md:p-4 animate-fade-in" onClick={resetAndClose}>
->>>>>>> 7d82df5b2c5ac05a43d4d5b37168e322d13fb43b
       <div 
         className="relative bg-gray-900 border border-amber-200/20 shadow-2xl shadow-amber-900/40 rounded-none md:rounded-xl w-full max-w-4xl flex flex-col md:flex-row h-[100dvh] md:h-auto md:max-h-[95vh] overflow-y-auto md:overflow-hidden scroll-smooth" 
         onClick={(e) => e.stopPropagation()}
@@ -370,13 +364,8 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
           </svg>
         </button>
 
-<<<<<<< HEAD
         {/* Container da Imagem: Em mobile é parte do fluxo normal de scroll. Em desktop é coluna esquerda. */}
         <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 h-[60vh] md:h-auto relative overflow-hidden">
-=======
-        {/* Alterado para aspect-[3/4] no mobile para mostrar foto inteira vertical */}
-        <div className="w-full md:w-5/12 flex-shrink-0 bg-gray-800 aspect-[3/4] md:aspect-auto md:h-auto overflow-hidden relative">
->>>>>>> 7d82df5b2c5ac05a43d4d5b37168e322d13fb43b
           <ImageCarousel images={currentImages} procedureName={currentProcedureName} />
           {/* Overlay gradiente inferior para transição suave */}
           <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent md:hidden pointer-events-none"></div>
