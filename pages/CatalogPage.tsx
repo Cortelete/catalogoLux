@@ -31,7 +31,12 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
   };
 
   const handleSelectProcedure = (proc: Procedure) => {
+<<<<<<< HEAD
     // Mantém a categoria aberta ao fundo
+=======
+    // Mantém a categoria aberta ao fundo para que o botão voltar (X do modal) retorne à lista
+    // handleCloseCategory(); 
+>>>>>>> 7d82df5b2c5ac05a43d4d5b37168e322d13fb43b
     onProcedureSelect(proc);
   };
 
