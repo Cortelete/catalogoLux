@@ -31,7 +31,9 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
   };
 
   const handleSelectProcedure = (proc: Procedure) => {
-    handleCloseCategory();
+    // NÃO fechamos a categoria aqui. Isso mantém o modal da categoria aberto no fundo.
+    // Assim, ao fechar o BookingModal (X), o usuário vê a lista novamente.
+    // handleCloseCategory(); 
     onProcedureSelect(proc);
   };
 
@@ -124,7 +126,7 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
                   <h3 className="text-amber-200/50 text-xs font-bold uppercase tracking-widest mb-3 ml-1 border-l-2 border-amber-500/50 pl-3">
                     {sub.name}
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-3 md:space-y-3 space-y-4">
                     {sub.procedures.map((proc) => (
                       <ProcedureListItem 
                         key={proc.id} 
@@ -138,7 +140,7 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
 
               {/* Opção 2: Exibir Procedimentos Diretos (se não houver subcategorias) */}
               {selectedCategory.procedures && (
-                 <div className="space-y-3 animate-fade-in">
+                 <div className="space-y-3 md:space-y-3 space-y-4 animate-fade-in">
                     {selectedCategory.procedures.map((proc) => (
                       <ProcedureListItem 
                         key={proc.id} 
@@ -169,21 +171,80 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
 };
 
 // Componente auxiliar para item da lista
-// REFORMULADO PARA MOBILE: Flex-col em mobile, Flex-row em desktop
 const ProcedureListItem: React.FC<{ procedure: Procedure; onClick: () => void }> = ({ procedure, onClick }) => {
   return (
+    <>
+    {/* --- VERSÃO MOBILE (CARD COM FOTO GRANDE E DEGRADÊ) --- */}
+    <div 
+        onClick={onClick}
+        className={`
+            md:hidden relative w-full h-72 rounded-xl overflow-hidden border border-white/10 shadow-lg mb-4
+            ${procedure.comingSoon ? 'opacity-50 grayscale pointer-events-none' : 'cursor-pointer'}
+        `}
+    >
+        {/* Imagem de Fundo (Full) */}
+        <img 
+            src={procedure.images[0]} 
+            alt={procedure.name}
+            className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => {
+                e.currentTarget.onerror = null; 
+                e.currentTarget.src = `https://placehold.co/600x600/1f2937/fbbf24?text=${encodeURIComponent(procedure.name.substring(0,2))}`;
+            }}
+        />
+        
+        {/* Degradê Inferior para Texto */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+
+        {/* Badge "Em Breve" se necessário */}
+        {procedure.comingSoon && (
+             <span className="absolute top-3 right-3 text-[10px] bg-gray-800/80 text-gray-300 px-2 py-0.5 rounded backdrop-blur-sm border border-white/10">Em Breve</span>
+        )}
+
+        {/* Conteúdo Sobreposto no Bottom */}
+        <div className="absolute bottom-0 left-0 w-full p-4 flex flex-col items-start">
+            <h4 className="font-display text-xl text-amber-50 mb-1 drop-shadow-md leading-tight">
+                {procedure.name}
+            </h4>
+            
+            <p className="text-xs text-amber-100/80 line-clamp-2 mb-3 leading-snug max-w-[90%]">
+                 {procedure.comingSoon ? 'Em breve' : procedure.description}
+            </p>
+
+            <div className="w-full flex items-center justify-between border-t border-white/20 pt-2">
+                 <div className="flex flex-col">
+                    {procedure.price.split('|').map((part, index) => (
+                        <span key={index} className="text-sm font-semibold text-amber-300 whitespace-nowrap drop-shadow-sm">
+                        {part.replace('Aplicação:', 'Aplic:').replace('Manutenção:', 'Manut:').trim()}
+                        </span>
+                    ))}
+                 </div>
+                 
+                 {!procedure.comingSoon && (
+                     <span className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs px-3 py-1.5 rounded-full border border-amber-500/30 flex items-center">
+                        Agendar
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                     </span>
+                 )}
+            </div>
+        </div>
+    </div>
+
+    {/* --- VERSÃO DESKTOP (LISTA HORIZONTAL) --- */}
     <div 
       onClick={onClick}
       className={`
-        group relative flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 
+        hidden md:flex group relative items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 
         hover:bg-amber-500/10 hover:border-amber-500/30 transition-all duration-300 cursor-pointer gap-4
         ${procedure.comingSoon ? 'opacity-50 pointer-events-none grayscale' : ''}
       `}
     >
       {/* Container Esquerdo: Imagem e Textos */}
-      <div className="flex items-start md:items-center gap-4 w-full md:w-auto">
+      <div className="flex items-center gap-4">
         {/* Avatar da imagem do procedimento */}
-        <div className="h-14 w-14 md:h-12 md:w-12 rounded-lg overflow-hidden bg-gray-800 flex-shrink-0 border border-white/10 group-hover:border-amber-400/50 transition-colors">
+        <div className="h-12 w-12 rounded-lg overflow-hidden bg-gray-800 flex-shrink-0 border border-white/10 group-hover:border-amber-400/50 transition-colors">
           <img 
             src={procedure.images[0]} 
             alt="" 
@@ -195,20 +256,19 @@ const ProcedureListItem: React.FC<{ procedure: Procedure; onClick: () => void }>
           />
         </div>
         
-        <div className="flex-1 min-w-0"> {/* min-w-0 ajuda no truncamento flex */}
-          <h4 className="font-medium text-amber-50 group-hover:text-amber-100 transition-colors text-base md:text-lg">
+        <div className="flex-1 min-w-0">
+          <h4 className="font-medium text-amber-50 group-hover:text-amber-100 transition-colors text-lg">
             {procedure.name}
           </h4>
-          <p className="text-sm text-amber-100/50 font-light line-clamp-2 md:truncate md:max-w-xs leading-tight mt-1">
+          <p className="text-sm text-amber-100/50 font-light truncate max-w-xs leading-tight mt-1">
             {procedure.comingSoon ? 'Em breve' : procedure.description}
           </p>
         </div>
       </div>
 
       {/* Container Direito: Preço e Botão */}
-      {/* Em mobile: Linha separada com borda superior */}
-      <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center w-full md:w-auto border-t md:border-t-0 border-white/5 pt-3 md:pt-0 pl-0 md:pl-2 gap-2">
-         <div className="flex flex-col md:items-end">
+      <div className="flex flex-col items-end gap-2">
+         <div className="flex flex-col items-end">
              {procedure.price.split('|').map((part, index) => (
                 <span key={index} className="text-sm font-semibold text-amber-200 whitespace-nowrap">
                    {part.replace('Aplicação:', 'Aplic:').replace('Manutenção:', 'Manut:').trim()}
@@ -219,7 +279,7 @@ const ProcedureListItem: React.FC<{ procedure: Procedure; onClick: () => void }>
          {procedure.comingSoon ? (
             <span className="text-[10px] bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Breve</span>
          ) : (
-            <span className="text-xs text-amber-400 font-medium md:text-amber-400/0 md:opacity-0 md:group-hover:text-amber-400 md:group-hover:opacity-100 transition-all transform md:translate-x-2 md:group-hover:translate-x-0 flex items-center bg-amber-500/10 md:bg-transparent px-3 py-1 rounded-full md:p-0 md:rounded-none border border-amber-500/20 md:border-0">
+            <span className="text-xs text-amber-400 font-medium opacity-0 group-hover:text-amber-400 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0 flex items-center">
               Agendar
               <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -228,6 +288,7 @@ const ProcedureListItem: React.FC<{ procedure: Procedure; onClick: () => void }>
          )}
       </div>
     </div>
+    </>
   );
 };
 
