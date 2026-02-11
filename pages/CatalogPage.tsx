@@ -5,7 +5,7 @@ import { CATEGORIES } from '../public/data/procedures';
 import BackButton from '../components/BackButton';
 
 interface CatalogPageProps {
-  onProcedureSelect: (procedure: Procedure) => void;
+  onProcedureSelect: (procedure: Procedure, procedureList?: Procedure[]) => void;
 }
 
 // Mapas de imagens para os cards das categorias
@@ -30,9 +30,24 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onProcedureSelect }) => {
     document.body.style.overflow = 'auto';
   };
 
+  // Helper para obter lista plana de procedimentos da categoria atual para navegação
+  const getCategoryProcedures = (category: Category | null): Procedure[] => {
+    if (!category) return [];
+    if (category.procedures) return category.procedures;
+    if (category.subCategories) {
+      return category.subCategories.flatMap(sub => sub.procedures);
+    }
+    return [];
+  };
+
   const handleSelectProcedure = (proc: Procedure) => {
-    handleCloseCategory();
-    onProcedureSelect(proc);
+    // NÃO fechamos a categoria aqui. Isso mantém o modal da categoria aberto no fundo.
+    // Assim, ao fechar o BookingModal (X), o usuário vê a lista novamente.
+    // handleCloseCategory(); 
+    
+    // Pega a lista completa de procedimentos desta categoria para permitir navegação (próximo/anterior)
+    const allProcs = getCategoryProcedures(selectedCategory);
+    onProcedureSelect(proc, allProcs);
   };
 
   // Handler para erro de imagem da categoria

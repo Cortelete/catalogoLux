@@ -37,9 +37,9 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="py-5 px-4 md:px-6 w-full z-30 sticky top-0 bg-black/60 backdrop-blur-lg border-b border-amber-50/10">
+      <header className="py-2 px-4 md:px-6 w-full z-30 sticky top-0 bg-black/60 backdrop-blur-lg border-b border-amber-50/10">
         <div className="container mx-auto flex justify-between items-center">
-          <ReactRouterDOM.NavLink to="/" className="text-xl md:text-2xl font-display text-amber-100 font-semibold tracking-wider hover:text-amber-200 transition-colors">
+          <ReactRouterDOM.NavLink to="/" className="text-lg md:text-xl font-display text-amber-100 font-semibold tracking-wider hover:text-amber-200 transition-colors">
             Luxury Studio
           </ReactRouterDOM.NavLink>
           
