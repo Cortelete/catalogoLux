@@ -5,7 +5,6 @@ import { Procedure } from './types';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import CatalogPage from './pages/CatalogPage';
 import AboutPage from './pages/AboutPage';
 import BookingModal from './components/BookingModal';
 
@@ -75,8 +74,7 @@ const AppContent: React.FC = () => {
       <Header />
       <main className="flex-grow">
         <ReactRouterDOM.Routes>
-          <ReactRouterDOM.Route path="/" element={<HomePage />} />
-          <ReactRouterDOM.Route path="/catalogo" element={<CatalogPage onProcedureSelect={handleProcedureSelect} />} />
+          <ReactRouterDOM.Route path="/" element={<HomePage onProcedureSelect={handleProcedureSelect} />} />
           <ReactRouterDOM.Route path="/sobre" element={<AboutPage />} />
         </ReactRouterDOM.Routes>
       </main>
