@@ -225,6 +225,11 @@ const ProcedureListItem: React.FC<{ procedure: Procedure; onClick: () => void }>
                    {part.replace('Aplicação:', 'Aplic:').replace('Manutenção:', 'Manut:').trim()}
                 </span>
              ))}
+             {procedure.ledUvOption && (
+                <span className="text-[10px] font-medium text-amber-300/90 bg-amber-400/10 border border-amber-400/20 px-1.5 py-0.5 rounded mt-1 whitespace-nowrap">
+                  Opção LED UV
+                </span>
+             )}
          </div>
          
          {procedure.comingSoon ? (

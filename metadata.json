@@ -3,5 +3,7 @@
   "description": "Um catálogo digital completo, interativo e responsivo para o estúdio de beleza Luxury Studio Joyci Almeida, refletindo a identidade premium da marca.",
   "requestFramePermissions": [],
   "prompt": "",
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

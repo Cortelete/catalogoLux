@@ -7,6 +7,9 @@ export const efeitoFox: Procedure = {
   description: 'Design que cria um efeito lifting, alongando o olhar com fios mais longos nos cantos externos.',
   price: 'Aplicação: R$ 160,00 | Manutenção: R$ 120,00',
   details: ['Promove um olhar amendoado', 'Técnica moderna e sofisticada', 'Efeito delineado'],
+  ledUvOption: {
+    price: 'Aplicação: R$ 185,00 | Manutenção: R$ 145,00',
+  },
   images: [
       '/data/lash/efeito-fox/img/EF1.png',
       '/data/lash/efeito-fox/img/EF2.png',

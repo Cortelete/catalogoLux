@@ -12,6 +12,12 @@ export interface ToggleOption {
   priceIncrement: number;
 }
 
+export interface LedUvOption {
+  price: string;
+  label?: string;
+  description?: string;
+}
+
 export interface Procedure {
   id: string;
   name: string;
@@ -22,6 +28,7 @@ export interface Procedure {
   comingSoon?: boolean;
   maleVersion?: MaleVersion;
   toggleOption?: ToggleOption;
+  ledUvOption?: LedUvOption;
 }
 
 export interface SubCategory {

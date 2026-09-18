@@ -58,6 +58,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen,
   const [step, setStep] = useState(0);
   const [isMaleVersion, setIsMaleVersion] = useState(false);
   const [isToggleOptionSelected, setIsToggleOptionSelected] = useState(false);
+  const [isLedUvSelected, setIsLedUvSelected] = useState(false);
   const [formData, setFormData] = useState<BookingFormData>({
     name: '',
     birthDate: '',
@@ -74,6 +75,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen,
     if (procedure) {
       setIsMaleVersion(false);
       setIsToggleOptionSelected(false);
+      setIsLedUvSelected(false);
     }
   }, [procedure]);
 
@@ -118,6 +120,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen,
     setStep(0);
     setIsMaleVersion(false);
     setIsToggleOptionSelected(false);
+    setIsLedUvSelected(false);
     setFormData({ 
       name: '', 
       birthDate: '', 
@@ -166,9 +169,20 @@ const BookingModal: React.FC<BookingModalProps> = ({ procedure, onClose, isOpen,
   // Base Data Logic
   let currentProcedureName = isMaleVersion && procedure.maleVersion ? procedure.maleVersion.name : procedure.name;
   let basePriceString = isMaleVersion && procedure.maleVersion ? procedure.maleVersion.price : procedure.price;
+  let currentDetails = isMaleVersion && procedure.maleVersion ? procedure.maleVersion.details : procedure.details;
   const currentDescription = isMaleVersion && procedure.maleVersion ? procedure.maleVersion.description : procedure.description;
-  const currentDetails = isMaleVersion && procedure.maleVersion ? procedure.maleVersion.details : procedure.details;
   const currentImages = isMaleVersion && procedure.maleVersion?.images ? procedure.maleVersion.images : procedure.images;
+
+  // LED UV Option Logic
+  if (isLedUvSelected && procedure.ledUvOption) {
+    currentProcedureName += ' (com LED UV)';
+    basePriceString = procedure.ledUvOption.price;
+    currentDetails = [
+      ...(currentDetails || []),
+      'Aplicação com Tecnologia LED UV (secagem instantânea e retenção prolongada)',
+      'Livre de restrições (pode molhar na hora)',
+    ];
+  }
 
   // Toggle Option Logic (e.g., Henna)
   let displayedPrice = basePriceString;
@@ -416,6 +430,37 @@ Aguardo seu contato para verificar disponibilidade. Obrigada! ✨`;
                         {procedure.toggleOption.label} <span className="text-amber-200 font-medium">(+ R$ {procedure.toggleOption.priceIncrement.toFixed(2).replace('.', ',')})</span>
                     </label>
                 </div>
+            )}
+
+            {/* Opção com LED UV */}
+            {procedure.ledUvOption && (
+              <div className={`mt-4 p-3.5 rounded-xl border transition-all duration-300 ${isLedUvSelected ? 'bg-amber-400/15 border-amber-300 shadow-md shadow-amber-900/30' : 'bg-gray-800/50 border-amber-50/15 hover:border-amber-200/40'}`}>
+                <label htmlFor="led-uv-checkbox" className="flex items-start cursor-pointer select-none">
+                  <input 
+                    type="checkbox" 
+                    id="led-uv-checkbox"
+                    checked={isLedUvSelected}
+                    onChange={(e) => setIsLedUvSelected(e.target.checked)}
+                    className="mt-0.5 h-5 w-5 cursor-pointer rounded bg-gray-700 border-amber-50/30 text-amber-300 focus:ring-amber-200 focus:ring-offset-gray-900 flex-shrink-0"
+                  />
+                  <div className="ml-3 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-semibold text-amber-100 flex items-center gap-1.5">
+                        Aplicação com LED UV
+                      </span>
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-400/40">
+                        Tecnologia LED
+                      </span>
+                    </div>
+                    <p className="text-xs text-amber-100/70 mt-1 leading-relaxed">
+                      Secagem instantânea com luz LED UV, retenção prolongada e pode molhar imediatamente.
+                    </p>
+                    <div className="mt-1.5 text-xs font-semibold text-amber-200">
+                      Com LED UV: <span className="text-amber-300 font-bold">{procedure.ledUvOption.price}</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
             )}
 
             <ul className="mt-4 space-y-2 text-sm text-amber-100/70 list-none">

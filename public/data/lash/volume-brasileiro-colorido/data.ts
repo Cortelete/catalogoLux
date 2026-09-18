@@ -7,6 +7,9 @@ export const volumeBrasileiroColorido: Procedure = {
   description: 'A versão colorida e criativa do Volume Brasileiro para um look ousado e cheio de personalidade.',
   price: 'Aplicação: R$ 140,00 | Manutenção: R$ 110,00',
   details: ['Disponível em diversas cores', 'Ideal para eventos e looks artísticos'],
+  ledUvOption: {
+    price: 'Aplicação: R$ 175,00 | Manutenção: R$ 135,00',
+  },
   images: [
       '/data/lash/volume-brasileiro-colorido/img/VBC1.png',
       '/data/lash/volume-brasileiro-colorido/img/VBC2.png',

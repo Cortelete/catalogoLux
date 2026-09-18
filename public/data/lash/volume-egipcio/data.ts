@@ -7,6 +7,9 @@ export const volumeEgipcio: Procedure = {
   description: 'Técnica que utiliza fios tecnológicos 4D para um volume sofisticado e um acabamento elegante.',
   price: 'Aplicação: R$ 160,00 | Manutenção: R$ 120,00',
   details: ['Alto poder de preenchimento', 'Fio Tecnológico 4D', 'Efeito glamoroso'],
+  ledUvOption: {
+    price: 'Aplicação: R$ 185,00 | Manutenção: R$ 145,00',
+  },
   images: [
       '/data/lash/volume-egipcio/img/VE1.png',
       '/data/lash/volume-egipcio/img/VE2.png',
